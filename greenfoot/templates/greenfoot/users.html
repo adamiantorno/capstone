@@ -1,0 +1,113 @@
+{% extends 'greenfoot/layout.html' %}
+{% load static %}
+
+
+{% block body %}
+<div class="row py-5 px-4">
+    <div class="col-sm mx-auto">
+        <div class="p-2 bg-white shadow rounded overflow-hidden">
+            <h2 class="page-header">Your Requests</h2>
+            <ul class="user-list">
+                {% for friend_request in all_friend_requests %}
+                
+                <hr>
+                <li class="user-item">
+                    <div class="inner-user d-flex justify-content-between">
+                        <div class="user-card d-flex flex-row">
+                            <a href=""><img src="../../static/greenfoot/img/profilepic.png" alt="" style="height: 50px; border-radius: 50%;"></a>
+                            <div class="m-2 user-info align-self-center">
+                                <a class="user-link" href="{% url 'profile' user.username %}">
+                                    <span>{{ friend_request.from_user }}</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="user-action">
+                            <div class="user-action d-flex align-items-center">
+                                <div><a href="{% url 'accept friend request' friend_request.id %}"><button class="btn btn-outline-success m-1">Accept</button></a></div>
+                                <div><a href="{% url 'decline friend request' friend_request.id %}"><button class="btn btn-outline-secondary">Ignore</button></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% empty %}
+                No Friend Requests :(
+                {% endfor %}
+            </ul>                
+        </div>
+    </div>
+    <div class="col-sm mx-auto">
+        <div class="p-2 bg-white shadow rounded overflow-hidden">
+            <h2 class="page-header">Your Friends</h2>
+            <ul class="user-list">
+                {% for user in allusers %}
+                    {% if user in request.user.friends.all %}
+                        {% if user != request.user %}
+                        <hr>
+                        <li class="user-item">
+                            <div class="inner-user">
+                                <div class="user-card d-flex flex-row">
+                                    <a href=""><img src="../../static/greenfoot/img/profilepic.png" alt="" style="height: 50px; border-radius: 50%;"></a>
+                                    <div class="m-2 user-info align-self-center">
+                                        <a class="user-link" href="{% url 'profile' user.username %}">
+                                            <span>{{ user }}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {% endif %}
+                    {% endif %}
+                {% empty %}
+                    No Friends :(
+                {% endfor %}
+            </ul>
+            
+        </div>
+    </div>
+    <div class="col-sm mx-auto">
+        <div class="p-2 bg-white shadow rounded overflow-hidden">
+            <h2 class="page-header">Other Users</h2>
+            <div>
+                <ul class="user-list">
+                    {% for user in allusers %}
+                        {% if user not in request.user.friends.all %}
+                            {% if user != request.user %}
+                                <hr>
+                                <li class="user-item">
+                                    <div class="inner-user d-flex justify-content-between">
+                                        <div class="user-card d-flex flex-row">
+                                            <a href=""><img src="../../static/greenfoot/img/profilepic.png" alt="" style="height: 50px; border-radius: 50%;"></a>
+                                            <div class="m-2 user-info align-self-center">
+                                                <a class="user-link" href="{% url 'profile' user.username %}">
+                                                    {{ user }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="user-action align-self-center" id="user-{{ user.id }}">
+                                           <button class="btn btn-light sendrequest">Send Friend Request</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="row py-5 px-4">
+    <li class="pb-2 user-item"><a class="user-link" href="{% url 'profile' user.username %}">{{ user }}</a></li>
+</div>
+
+<div class="row py-5 px-4">
+    
+</div> -->
+
+{% endblock body %}
+
+{% block script %}
+<script src="{% static 'greenfoot/social.js' %}"></script>
+{% endblock script %}
+    

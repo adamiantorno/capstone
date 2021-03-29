@@ -1,0 +1,54 @@
+{% extends 'greenfoot/layout.html' %}
+{% load static %}
+
+
+
+{% block body %}
+
+<ul class="your_friends">
+    <h3>Your Friends</h3>
+    
+    {% for user in allusers %}
+        {% if user in request.user.friends.all %}
+        {% if user != request.user %}
+            <li>{{ user }}</li>
+        {% endif %} 
+        {% endif %}    
+    {% empty %}
+        <li>No Friends</li>
+    {% endfor %}
+        
+</ul>
+
+<ul class="all_requests">     
+    <h3>Your Friend Requests</h3>
+    {% for friend_request in all_friend_requests  %}
+        <li>{{ friend_request.from_user }}
+            <a href="{% url 'accept friend request' friend_request.id %}">
+                accept friend request
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+
+<ul class="all_users">
+    <h3>All Users</h3>
+    {% for user in allusers %}
+        {% if user not in request.user.friends.all %}
+        {% if user != request.user %}
+        <li>{{ user }} <a href="{% url 'send friend request' user.id %}">send friend request</a></li>
+        {% endif %} 
+        {% endif %}
+    {% empty %}
+        <li>No other users</li>
+    {% endfor %}        
+</ul>
+
+{% endblock body %}
+
+
+{% block script %}
+
+{% endblock script %}
+    

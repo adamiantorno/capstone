@@ -1,0 +1,71 @@
+{% extends 'greenfoot/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+<div id="login-container">
+    <div class="login-box" id="login-view">
+        <h1 class="login-title">SIGN IN</h1>
+
+        <!-- {% if message %}
+            <div class="alert alert-danger" role="alert" style="z-index: 12;">
+                {{ message }}
+            </div>
+        {% endif %} -->
+
+        <form action="{% url 'login' %}" method="POST" class="form-box">
+            {% csrf_token %}
+            <div class="form-group">
+                <p id="lerror" style="color: red;">{{ l_message }}</p>
+                <!-- <label for="">Username</label> -->
+                <input autofocus class="form-control" type="text" name="username" placeholder="Username" autofocus>
+            </div>
+            <div class="form-group">
+                <!-- <label for="">Password</label> -->
+                <input class="form-control" type="password" name="password" placeholder="Password">
+            </div>
+            <input class="btn btn-primary login-btn" type="submit" value="Login">
+        </form>
+
+        <div>
+            Don't have an account? <br><button class="btn btn-link login-btn" id="register">Register Here!</button>
+        </div> 
+    </div>
+
+
+    <div class="login-box" id="register-view" style="display: none;">
+        <h1 class="login-title">REGISTER</h1>
+
+        <form action="{% url 'register' %}" method="POST" id="rf" class="form-box">
+            {% csrf_token %}
+            <p id="rerror" style="color: red;">{{ r_message }}</p>
+            <div class="form-group">
+                <input id="ru" class="form-control" type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input id="re" class="form-control" type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input id="rp" class="form-control" type="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <input id="rpc" class="form-control" type="password" name="confirmation" placeholder="Confirm Password" required>
+            </div>
+            <input class="btn btn-primary login-btn" type="submit" value="Register" onclick="register(event)">
+        </form>
+
+        <div>
+            Alredy have an account? <br><button class="btn btn-link login-btn" id="login">Log In Here!</button>
+        </div> 
+    </div>
+</div>
+    
+{% endblock body %}
+
+
+{% block script %}
+    <script src="{% static 'greenfoot/login.js' %}"></script>
+{% endblock script %}
+    
+
+    

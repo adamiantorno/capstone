@@ -1,0 +1,35 @@
+{% extends 'greenfoot/layout.html' %}
+{% load static %}
+
+
+{% block body %}
+<div class="row py-5 px-4">
+    <div class="col-md-5 mx-auto">
+        <!-- Profile widget -->
+        <div class="p-3 mt-5 mb-5 bg-white shadow rounded overflow-hidden">
+            <h1 class="mx-auto page-header">INPUT</h1>
+            <form id="compose-form" action="POST">
+                <div class="form-group">
+                    {% csrf_token %}
+                    {{ travelForm }}
+                </div>
+                <div class="form-group" id="hidden-view">
+                    {% csrf_token %}
+                    {{ vehicleForm }}
+                </div>
+                <input class="btn btn-success" type="submit">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
+
+
+{% block script %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+        console.log('hello');
+    </script>
+{% endblock script %}
+    
+    
